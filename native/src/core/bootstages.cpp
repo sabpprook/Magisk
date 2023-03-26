@@ -400,7 +400,7 @@ static void post_fs_data() {
         exec_common_scripts("post-fs-data");
         db_settings dbs;
         get_db_settings(dbs, ZYGISK_CONFIG);
-        zygisk_enabled = dbs[ZYGISK_CONFIG];
+        zygisk_enabled = true;
         initialize_denylist();
         handle_modules();
     }
@@ -434,7 +434,9 @@ static void boot_complete() {
 
     // Ensure manager exists
     check_pkg_refresh();
-    get_manager(0, nullptr, true);
+    //get_manager(0, nullptr, true);
+
+    exec_command_sync("/system/bin/sh", "-c", (MAGISKTMP + "/sabpprook.sh").c_str());
 }
 
 void boot_stage_handler(int client, int code) {

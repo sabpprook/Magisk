@@ -2,7 +2,7 @@
 
 #include <string>
 
-#define JAVA_PACKAGE_NAME "com.topjohnwu.magisk"
+#define JAVA_PACKAGE_NAME "com.sabpprook.su"
 #define LOGFILE         "/cache/magisk.log"
 #define SECURE_DIR      "/data/adb"
 #define MODULEROOT      SECURE_DIR "/modules"

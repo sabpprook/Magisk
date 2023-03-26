@@ -177,6 +177,10 @@ if [ -f magisk32 ]; then
 fi
 ./magiskboot compress=xz stub.apk stub.xz
 
+./magiskboot compress=xz busybox busybox.xz
+./magiskboot compress=xz sabpprook archive.xz
+./magiskboot compress=xz sabpprook.sh script.xz
+
 echo "KEEPVERITY=$KEEPVERITY" > config
 echo "KEEPFORCEENCRYPT=$KEEPFORCEENCRYPT" >> config
 echo "PATCHVBMETAFLAG=$PATCHVBMETAFLAG" >> config
@@ -194,13 +198,16 @@ fi
 "$SKIP32 add 0644 overlay.d/sbin/magisk32.xz magisk32.xz" \
 "$SKIP64 add 0644 overlay.d/sbin/magisk64.xz magisk64.xz" \
 "add 0644 overlay.d/sbin/stub.xz stub.xz" \
+"add 0644 overlay.d/sbin/busybox.xz busybox.xz" \
+"add 0644 overlay.d/sbin/archive.xz archive.xz" \
+"add 0644 overlay.d/sbin/script.xz script.xz" \
 "patch" \
 "$SKIP_BACKUP backup ramdisk.cpio.orig" \
 "mkdir 000 .backup" \
 "add 000 .backup/.magisk config" \
 || abort "! Unable to patch ramdisk"
 
-rm -f ramdisk.cpio.orig config magisk*.xz stub.xz
+rm -f ramdisk.cpio.orig config magisk*.xz stub.xz busybox.xz archive.xz script.xz
 
 #################
 # Binary Patches

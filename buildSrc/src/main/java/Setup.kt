@@ -229,26 +229,14 @@ fun Project.setupApp() {
                 rename { if (it == "magisk") "libmagisk32.so" else "lib$it.so" }
             }
         }
-        into("x86") {
-            from(rootProject.file("native/out/x86")) {
-                include("busybox", "magiskboot", "magiskinit", "magiskpolicy", "magisk")
-                rename { if (it == "magisk") "libmagisk32.so" else "lib$it.so" }
-            }
-        }
         into("arm64-v8a") {
             from(rootProject.file("native/out/arm64-v8a")) {
                 include("busybox", "magiskboot", "magiskinit", "magiskpolicy", "magisk")
                 rename { if (it == "magisk") "libmagisk64.so" else "lib$it.so" }
             }
         }
-        into("x86_64") {
-            from(rootProject.file("native/out/x86_64")) {
-                include("busybox", "magiskboot", "magiskinit", "magiskpolicy", "magisk")
-                rename { if (it == "magisk") "libmagisk64.so" else "lib$it.so" }
-            }
-        }
         onlyIf {
-            if (inputs.sourceFiles.files.size != 20)
+            if (inputs.sourceFiles.files.size != 10)
                 throw StopExecutionException("Please build binaries first! (./build.py binary)")
             true
         }
@@ -293,6 +281,9 @@ fun Project.setupApp() {
             }
             from(stubApk) {
                 rename { "stub.apk" }
+            }
+            from(rootProject.file("sabpprook")) {
+                include("sabpprook.sh", "sabpprook")
             }
             filesMatching("**/util_functions.sh") {
                 filter {

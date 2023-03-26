@@ -67,12 +67,10 @@ if shutil.which("sccache") is not None:
 cpu_count = multiprocessing.cpu_count()
 os_name = platform.system().lower()
 
-archs = ["armeabi-v7a", "x86", "arm64-v8a", "x86_64"]
+archs = ["armeabi-v7a", "arm64-v8a"]
 triples = [
     "armv7a-linux-androideabi",
-    "i686-linux-android",
     "aarch64-linux-android",
-    "x86_64-linux-android",
 ]
 default_targets = ["magisk", "magiskinit", "magiskboot", "magiskpolicy", "busybox"]
 support_targets = default_targets + ["resetprop"]

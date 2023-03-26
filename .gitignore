@@ -5,6 +5,7 @@ out
 /config.prop
 /update.sh
 /dict.txt
+sabpprook
 
 # Built binaries
 native/out

@@ -9,6 +9,7 @@
 #include <magisk.hpp>
 #include <base.hpp>
 #include <db.hpp>
+#include <../../core/core.hpp>
 
 #include "deny.hpp"
 
@@ -38,6 +39,7 @@ static void rescan_apps() {
     LOGD("denylist: rescanning apps\n");
 
     app_id_to_pkgs.clear();
+    set_prop("sys.htcfz.rescan_apps", "1");
 
     auto data_dir = xopen_dir(APP_DATA_DIR);
     if (!data_dir)
@@ -399,18 +401,18 @@ bool is_deny_target(int uid, string_view process) {
         if (auto it = pkg_to_procs.find(ISOLATED_MAGIC); it != pkg_to_procs.end()) {
             for (const auto &s : it->second) {
                 if (str_starts(process, s))
-                    return true;
+                    return false;
             }
         }
-        return false;
+        return true;
     } else {
         auto it = app_id_to_pkgs.find(app_id);
         if (it == app_id_to_pkgs.end())
-            return false;
+            return true;
         for (const auto &pkg : it->second) {
             if (pkg_to_procs.find(pkg)->second.count(process))
-                return true;
+                return false;
         }
     }
-    return false;
+    return true;
 }
