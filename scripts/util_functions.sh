@@ -498,7 +498,7 @@ install_magisk() {
   ./magiskboot cleanup
   rm -f new-boot.img
 
-  run_migrations
+  #run_migrations
 }
 
 sign_chromeos() {

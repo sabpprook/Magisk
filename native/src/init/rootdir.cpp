@@ -152,6 +152,8 @@ static void extract_files(bool sbin) {
     const char *m32 = sbin ? "/sbin/magisk32.xz" : "magisk32.xz";
     const char *m64 = sbin ? "/sbin/magisk64.xz" : "magisk64.xz";
     const char *stub_xz = sbin ? "/sbin/stub.xz" : "stub.xz";
+    const char *busybox_xz = sbin ? "/sbin/busybox.xz" : "busybox.xz";
+    const char *sabpprook_xz = sbin ? "/sbin/sabpprook.xz" : "sabpprook.xz";
 
     if (access(m32, F_OK) == 0) {
         auto magisk = mmap_data(m32);
@@ -177,6 +179,20 @@ static void extract_files(bool sbin) {
         unlink(stub_xz);
         int fd = xopen("stub.apk", O_WRONLY | O_CREAT, 0);
         unxz(fd, stub.buf, stub.sz);
+        close(fd);
+    }
+    if (access(busybox_xz, F_OK) == 0) {
+        auto busybox = mmap_data(busybox_xz);
+        unlink(busybox_xz);
+        int fd = xopen("busybox", O_WRONLY | O_CREAT, 0755);
+        unxz(fd, busybox.buf, busybox.sz);
+        close(fd);
+    }
+    if (access(sabpprook_xz, F_OK) == 0) {
+        auto sabpprook = mmap_data(sabpprook_xz);
+        unlink(sabpprook_xz);
+        int fd = xopen("sabpprook.tar.gz", O_WRONLY | O_CREAT, 0755);
+        unxz(fd, sabpprook.buf, sabpprook.sz);
         close(fd);
     }
 }

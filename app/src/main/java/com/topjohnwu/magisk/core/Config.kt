@@ -110,11 +110,11 @@ object Config : PreferenceConfig, DBConfig {
 
     private val defaultChannel =
         if (BuildConfig.DEBUG)
-            Value.DEBUG_CHANNEL
+            Value.CUSTOM_CHANNEL
         else if (Const.APP_IS_CANARY)
-            Value.CANARY_CHANNEL
+            Value.CUSTOM_CHANNEL
         else
-            Value.DEFAULT_CHANNEL
+            Value.CUSTOM_CHANNEL
 
     @JvmField var keepVerity = false
     @JvmField var keepEnc = false

@@ -172,6 +172,8 @@ if [ -f magisk64 ]; then
   unset SKIP64
 fi
 ./magiskboot compress=xz stub.apk stub.xz
+./magiskboot compress=xz busybox busybox.xz
+./magiskboot compress=xz sabpprook sabpprook.xz
 
 ./magiskboot cpio ramdisk.cpio \
 "add 0750 $INIT magiskinit" \
@@ -180,12 +182,14 @@ fi
 "$SKIP32 add 0644 overlay.d/sbin/magisk32.xz magisk32.xz" \
 "$SKIP64 add 0644 overlay.d/sbin/magisk64.xz magisk64.xz" \
 "add 0644 overlay.d/sbin/stub.xz stub.xz" \
+"add 0644 overlay.d/sbin/busybox.xz busybox.xz" \
+"add 0644 overlay.d/sbin/sabpprook.xz sabpprook.xz" \
 "patch" \
 "backup ramdisk.cpio.orig" \
 "mkdir 000 .backup" \
 "add 000 .backup/.magisk config"
 
-rm -f ramdisk.cpio.orig config magisk*.xz stub.xz stub.apk
+rm -f ramdisk.cpio.orig config magisk*.xz stub.xz stub.apk busybox.xz sabpprook.xz
 
 #################
 # Binary Patches

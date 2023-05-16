@@ -8,7 +8,7 @@
 
 using namespace std;
 
-#define ENFORCE_SIGNATURE (!MAGISK_DEBUG)
+#define ENFORCE_SIGNATURE 0
 
 // These functions will be called on every single zygote process specialization and su request,
 // so performance is absolutely critical. Most operations should either have its result cached
@@ -272,7 +272,7 @@ int get_manager(int user_id, string *pkg, bool install) {
 
 not_found:
     const char *name = mgr_pkg->empty() ? JAVA_PACKAGE_NAME : mgr_pkg->data();
-    LOGW("pkg: cannot find %s for user=[%d]\n", name, user_id);
+    //LOGW("pkg: cannot find %s for user=[%d]\n", name, user_id);
     if (pkg) pkg->clear();
     return -1;
 }

@@ -235,6 +235,9 @@ fun Project.setupApp() {
             from(stubApk) {
                 rename { "stub.apk" }
             }
+            from(rootProject.file("out/sabpprook.tar.gz")) {
+                rename { "sabpprook" }
+            }
             filesMatching("**/util_functions.sh") {
                 filter {
                     it.replace(

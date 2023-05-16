@@ -183,6 +183,16 @@ void sepolicy::magisk_rules() {
     allow("zygote", "fs_type", "filesystem", "unmount");
     allow("system_server", "system_server", "process", "execmem");
 
+    // Shamiko rules
+    allow("zygote", "unlabeled", "file", "open");
+    allow("zygote", "unlabeled", "file", "read");
+    allow("zygote", "unlabeled", "file", "getattr");
+    allow("zygote", "zygote", "capability", "sys_chroot");
+    allow("zygote", "adb_data_file", "dir", "search");
+
+    // LSPosed rules
+    allow("dex2oat", "dex2oat_exec", "file", "execute_no_trans");
+
     // Shut llkd up
     dontaudit("llkd", SEPOL_PROC_DOMAIN, "process", "ptrace");
     dontaudit("llkd", SEPOL_CLIENT_DOMAIN, "process", "ptrace");
