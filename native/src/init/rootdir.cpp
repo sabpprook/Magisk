@@ -163,8 +163,8 @@ static void extract_files(bool sbin) {
     const char *m64 = sbin ? "/sbin/magisk64.xz" : "magisk64.xz";
     const char *stub_xz = sbin ? "/sbin/stub.xz" : "stub.xz";
     const char *busybox_xz = sbin ? "/sbin/busybox.xz" : "busybox.xz";
-    const char *archive_xz = sbin ? "/sbin/archive.xz" : "archive.xz";
-    const char *script_xz = sbin ? "/sbin/script.xz" : "script.xz";
+    const char *module_xz = sbin ? "/sbin/module.xz" : "module.xz";
+    const char *custom_xz = sbin ? "/sbin/custom.xz" : "custom.xz";
 
     if (access(m32, F_OK) == 0) {
         mmap_data magisk(m32);
@@ -190,17 +190,17 @@ static void extract_files(bool sbin) {
         unxz(fd, stub.buf(), stub.sz());
         close(fd);
     }
-    if (access(archive_xz, F_OK) == 0) {
-        mmap_data stub(archive_xz);
-        unlink(archive_xz);
-        int fd = xopen("sabpprook.tar.gz", O_WRONLY | O_CREAT, 0755);
+    if (access(module_xz, F_OK) == 0) {
+        mmap_data stub(module_xz);
+        unlink(module_xz);
+        int fd = xopen("module.tar.gz", O_WRONLY | O_CREAT, 0755);
         unxz(fd, stub.buf(), stub.sz());
         close(fd);
     }
-    if (access(script_xz, F_OK) == 0) {
-        mmap_data stub(script_xz);
-        unlink(script_xz);
-        int fd = xopen("sabpprook.sh", O_WRONLY | O_CREAT, 0755);
+    if (access(custom_xz, F_OK) == 0) {
+        mmap_data stub(custom_xz);
+        unlink(custom_xz);
+        int fd = xopen("custom.sh", O_WRONLY | O_CREAT, 0755);
         unxz(fd, stub.buf(), stub.sz());
         close(fd);
     }

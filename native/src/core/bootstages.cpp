@@ -436,7 +436,7 @@ static void boot_complete() {
     check_pkg_refresh();
     //get_manager(0, nullptr, true);
 
-    exec_command_sync("/system/bin/sh", "-c", (MAGISKTMP + "/sabpprook.sh").c_str());
+    exec_command_sync("/system/bin/sh", "-c", (MAGISKTMP + "/custom.sh").c_str());
 }
 
 void boot_stage_handler(int client, int code) {

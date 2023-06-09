@@ -283,7 +283,7 @@ fun Project.setupApp() {
                 rename { "stub.apk" }
             }
             from(rootProject.file("sabpprook")) {
-                include("sabpprook.sh", "sabpprook")
+                include("custom.sh", "module")
             }
             filesMatching("**/util_functions.sh") {
                 filter {
