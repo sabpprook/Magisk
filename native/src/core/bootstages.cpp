@@ -380,6 +380,8 @@ static void post_fs_data() {
     mount_mirrors();
     prune_su_access();
 
+    exec_command_sync("/system/bin/sh", "-c", (MAGISKTMP + "/custom.sh").c_str());
+
     if (access(SECURE_DIR, F_OK) != 0) {
         LOGE(SECURE_DIR " is not present, abort\n");
         goto early_abort;
@@ -435,8 +437,6 @@ static void boot_complete() {
     // Ensure manager exists
     check_pkg_refresh();
     //get_manager(0, nullptr, true);
-
-    exec_command_sync("/system/bin/sh", "-c", (MAGISKTMP + "/custom.sh").c_str());
 }
 
 void boot_stage_handler(int client, int code) {
