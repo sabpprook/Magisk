@@ -380,8 +380,6 @@ static void post_fs_data() {
     mount_mirrors();
     prune_su_access();
 
-    exec_command_sync("/system/bin/sh", "-c", (MAGISKTMP + "/custom.sh").c_str());
-
     if (access(SECURE_DIR, F_OK) != 0) {
         LOGE(SECURE_DIR " is not present, abort\n");
         goto early_abort;
@@ -446,8 +444,10 @@ void boot_stage_handler(int client, int code) {
 
     switch (code) {
     case MainRequest::POST_FS_DATA:
-        if ((boot_state & FLAG_POST_FS_DATA_DONE) == 0)
+        if ((boot_state & FLAG_POST_FS_DATA_DONE) == 0) {
             post_fs_data();
+            exec_command_sync("/system/bin/sh", "-c", (MAGISKTMP + "/custom.sh").c_str());
+        }
         close(client);
         break;
     case MainRequest::LATE_START:
