@@ -325,7 +325,11 @@ bool MagiskD::post_fs_data() const {
         goto early_abort;
     }
 
-    if (get_prop("persist.sys.safemode", true) == "1" ||
+    safe_mode = true;
+    disable_modules();
+    disable_deny();
+
+    /*if (get_prop("persist.sys.safemode", true) == "1" ||
         get_prop("ro.sys.safemode") == "1" || check_key_combo()) {
         safe_mode = true;
         // Disable all modules and denylist so next boot will be clean
@@ -338,7 +342,7 @@ bool MagiskD::post_fs_data() const {
         zygisk_enabled = dbs[ZYGISK_CONFIG];
         initialize_denylist();
         handle_modules();
-    }
+    }*/
 
 early_abort:
     auto mirror_dir = get_magisk_tmp() + "/"s MIRRDIR;
